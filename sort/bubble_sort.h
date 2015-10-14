@@ -4,7 +4,8 @@
 
 #include "swap.h"
 
-// bubble_sort: range A[lo, hi)
+// bubble_sort : 
+//      sort range A[lo, hi)
 template <typename T>
 void bubble_sort(T *A, int lo, int hi)
 {

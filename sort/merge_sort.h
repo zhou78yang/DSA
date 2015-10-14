@@ -4,7 +4,8 @@
 
 #include "swap.h"
 
-// merge A[lo, mi) and A[mi, hi)
+// merge :
+//      merge A[lo, mi) and A[mi, hi)
 template <typename T>
 void merge(T *A, int lo, int mi, int hi)
 {
@@ -33,7 +34,8 @@ void merge(T *A, int lo, int mi, int hi)
 	delete[] b;
 }	
 
-// merge_sort: range A[lo, hi)
+// merge_sort :
+//      sort range A[lo, hi)
 template <typename T>
 void merge_sort(T *A, int lo, int hi)
 {
