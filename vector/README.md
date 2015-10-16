@@ -1,12 +1,7 @@
-#ifndef VECTOR_H_
-#define VECTOR_H_
+#向量（Vector）
 
-#include <iostream>
-#include <cstdlib>
-
-typedef     int                 Rank;
-#define     DEFAULT_CAPACITY    3
-
+###类声明部分
+```cpp
 template <typename T> class Vector
 {
 public:
@@ -73,5 +68,6 @@ protected:
     T*   _elem;
 
 };
+```
 
-#endif
+
