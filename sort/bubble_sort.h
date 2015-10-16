@@ -2,24 +2,30 @@
 #ifndef BUBBLE_SORT_H_
 #define BUBBLE_SORT_H_
 
-#include "swap.h"
+// Bubble -> int :
+//      return the last of the unsorted section
+template <typename T>
+int Bubble(T *A, int lo, int hi)
+{
+    int last = lo;
+    while(++lo < hi){
+        if(A[lo] < A[lo-1]){
+            std::swap(A[lo], A[lo-1]);
+            last = lo;
+        }
+    }
+    return last;
+}
+
 
 // bubble_sort : 
-//      sort range A[lo, hi)
+//      sort A[lo, hi)
 template <typename T>
-void bubble_sort(T *A, int lo, int hi)
+void BubbleSort(T *A, int lo, int hi)
 {
-	bool is_ordered = true;
-	while(lo < --hi){
-		is_ordered = true;
-		for(int i = lo; i < hi; i++){
-			if(A[i] > A[i+1]){
-				swap(A[i], A[i+1]);
-				is_ordered = false;
-			}
-		}
-		if(is_ordered) break;
-	}
+    while(lo < hi){
+        hi = Bubble(A, lo, hi);
+    }
 }
 
 #endif

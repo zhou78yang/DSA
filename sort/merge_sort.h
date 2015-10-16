@@ -2,49 +2,43 @@
 #ifndef MERGE_SORT_H_
 #define MERGE_SORT_H_
 
-#include "swap.h"
-
 // merge :
 //      merge A[lo, mi) and A[mi, hi)
 template <typename T>
-void merge(T *A, int lo, int mi, int hi)
+void Merge(T *A, int lo, int mi, int hi)
 {
-	int lb = mi - lo;
-	int lc = hi - mi;
-	T *a = A + lo;
-	T *b = new T[lb];		// part [lo, mi)
-	T *c = A + mi;			// part [mi, hi)
-	int ia = 0;
-	int ib = 0; 
-	int ic = 0;
+    int lb = mi - lo, lc = hi - mi;
+    T *B = new T[lb];                   // B = A[lo, mi)
+    T *C = A + mi;                      // C = A[mi, hi)
+    int ia = lo, ib = 0, ic = 0;
+    
+    // copy A[lo, mi) to B[0, lb)
+    for(int i = 0; i < lb; i++) B[i] = A[ia+i];
 
-	// copy a[0:lb] to b
-	for(int i = 0; i < lb; i++) b[i] = a[i];	
+    while(ib < lb && ic < lc){
+        if(B[ib] < C[ic]){
+            A[ia++] = B[ib++];
+        }
+        else{
+            A[ia++] = C[ic++];
+        }
+    }
+    while(ib < lb) A[ia++] = B[ib++];   
 
-	while(ib < lb && ic < lc){
-		if(c[ic] < b[ib]){
-			a[ia++] = c[ic++];
-		}
-		else{
-			a[ia++] = b[ib++];
-		}
-	}
-	while(ib < lb) a[ia++] = b[ib++];
-
-	delete[] b;
+	delete[] B;
 }	
 
-// merge_sort :
-//      sort range A[lo, hi)
+// merge_sort:
+//      sort A[lo, hi)
 template <typename T>
-void merge_sort(T *A, int lo, int hi)
+void MergeSort(T *A, int lo, int hi)
 {
-	if(hi - lo < 2) return;
+    if(hi - lo < 2) return ;
 
-	int mi = (lo + hi) / 2;
-	merge_sort(A, lo, mi);
-	merge_sort(A, mi, hi);
-	merge(A, lo, mi, hi);
+    int mi = (lo + hi) / 2;
+    MergeSort(A, lo, mi);
+    MergeSort(A, mi, hi);
+    Merge(A, lo, mi, hi);
 }
 
 #endif

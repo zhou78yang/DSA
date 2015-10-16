@@ -2,27 +2,25 @@
 #ifndef QUICK_SORT_H_
 #define QUICK_SORT_H_
 
-#include "swap.h"
-
 // partition() -> int :
 //      return the pivot
 //      partition range A[lo, hi)
 template <typename T>
-int partition_A(T *A, int lo, int hi)
+int Partition(T *A, int lo, int hi)
 {
     int mi = lo;
     for(int i = lo+1; i < hi; i++){
         if(A[i] < A[lo]){
-            swap(A[i], A[++mi]);
+            std::swap(A[i], A[++mi]);
         }
     }
-    swap(A[lo], A[mi]);
+    std::swap(A[lo], A[mi]);
     return mi;
 }
 
 // partition: version_B, range A[lo, hi)
 template <typename T>
-int partition_B(T *A, int lo, int hi)
+int Partition_B(T *A, int lo, int hi)
 {
     T pivot = A[lo];
     while(lo < hi){
@@ -38,13 +36,13 @@ int partition_B(T *A, int lo, int hi)
 // quick_sort:
 //      sort range A[lo, hi)
 template <typename T>
-void quick_sort(T *A, int lo, int hi)
+void QuickSort(T *A, int lo, int hi)
 {
     if(hi - lo < 2) return ;
 
-    int mi = partition_A(A, lo, hi);
-    quick_sort(A, lo, mi);
-    quick_sort(A, mi+1, hi);
+    int mi = Partition(A, lo, hi);
+    QuickSort(A, lo, mi);
+    QuickSort(A, mi+1, hi);
 }
 
 #endif
