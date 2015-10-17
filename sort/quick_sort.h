@@ -3,7 +3,7 @@
 #define QUICK_SORT_H_
 
 // partition() -> int :
-//      return the pivot
+//      return the pivotkey
 //      partition range A[lo, hi)
 template <typename T>
 int Partition(T *A, int lo, int hi)

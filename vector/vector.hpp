@@ -8,10 +8,11 @@
 #include "../sort/merge_sort.h"
 #include "../sort/selection_sort.h"
 #include "../sort/heap_sort.h"
+#include "../search/bin_search.h"
 
 
-typedef     int                 Rank;
-#define     DEFAULT_CAPACITY    3
+typedef     int                 Rank;           // 元素的秩
+#define     DEFAULT_CAPACITY    3               // 初始向量容量
 
 template <typename T> class Vector
 {
@@ -74,13 +75,14 @@ protected:
     void heapSort(Rank lo, Rank hi);
 
 protected:
-    Rank _size;
-    int  _capacity;
-    T*   _elem;
+    Rank _size;                             // 元素个数
+    int  _capacity;                         // 向量容量
+    T*   _elem;                             // 元素数组
 
 };
 
-// implements
+//////////////////////////////////////////////////////
+// 只读接口
 
 template <typename T>
 Rank Vector<T>::size() const
@@ -94,6 +96,7 @@ bool Vector<T>::empty() const
     return _size == 0;
 }
 
+// 查看序列是否有序，返回序列的逆序数
 template <typename T>
 int Vector<T>::disordered() const
 {
@@ -106,12 +109,15 @@ int Vector<T>::disordered() const
     return res;
 }
 
+// find：查找指定元素，适用于乱序序列
+//      返回元素的rank，如果没有找到，则返回-1
 template <typename T>
 Rank Vector<T>::find(const T &e) const
 {
     return find(e, 0, _size);
 }
 
+// 范围find
 template <typename T>
 Rank Vector<T>::find(const T &e, Rank lo, Rank hi) const
 {
@@ -123,24 +129,33 @@ Rank Vector<T>::find(const T &e, Rank lo, Rank hi) const
     return -1;
 }
 
+// search：查找指定元素，适用于顺序序列
+//      返回查找元素的rank，如果没有找到，则返回-1
 template <typename T>
 Rank Vector<T>::search(const T &e) const
 {
     return search(e, 0, _size);
 }
 
+// 范围search
 template <typename T>
 Rank Vector<T>::search(const T &e, Rank lo, Rank hi) const
 {
-    return -1;
+    return BinSearch(_elem, e, lo, hi);
 }
 
+
+/////////////////////////////////////////////////
+// 可写接口
+
+// 重载运算符 [] 
 template <typename T>
 T& Vector<T>::operator [](Rank r) const
 {
-    return _elem;
+    return _elem[r];
 }
 
+// 重载运算符 =
 template <typename T>
 Vector<T> &Vector<T>::operator = (const Vector<T> &v)
 {
@@ -153,6 +168,8 @@ Vector<T> &Vector<T>::operator = (const Vector<T> &v)
     return *this;
 }
 
+// remove：删除制定rank所在的元素
+//      返回删除元素的值
 template <typename T>
 T Vector<T>::remove(Rank r)
 {
@@ -166,6 +183,7 @@ T Vector<T>::remove(Rank r)
     return ret;
 }
 
+// 删除一段序列，并返回删除元素个数
 template <typename T>
 int Vector<T>::remove(Rank lo, Rank hi)
 {
@@ -179,6 +197,7 @@ int Vector<T>::remove(Rank lo, Rank hi)
     return hi - lo;
 }
 
+// 向指定位置插入元素e，默认插入到序列最后
 template <typename T>
 Rank Vector<T>::insert(const T &e)
 {
@@ -188,7 +207,7 @@ Rank Vector<T>::insert(const T &e)
 template <typename T>
 Rank Vector<T>::insert(Rank r, const T &e)
 {
-    expand();
+    expand();// 插入前，先检查是否需要扩容
 
     for(int i = _size; i > r; i--){
         _elem[i] = _elem[i-1];
@@ -199,6 +218,7 @@ Rank Vector<T>::insert(Rank r, const T &e)
     return r;
 }
 
+// sort：给向量排序，随机选择排序算法
 template <typename T>
 void Vector<T>::sort()
 {
@@ -208,6 +228,7 @@ void Vector<T>::sort()
 template <typename T>
 void Vector<T>::sort(Rank lo, Rank hi)
 {
+    // 随机选择排序算法
     switch(rand() % 3)
     {
     case 0:
@@ -223,6 +244,7 @@ void Vector<T>::sort(Rank lo, Rank hi)
     }
 }
 
+// unsort：使向量元素乱序，可选全局或者区域
 template <typename T>
 void Vector<T>::unsort()
 {
@@ -238,6 +260,8 @@ void Vector<T>::unsort(Rank lo, Rank hi)
     }
 }
 
+// deduplicate：无序向量唯一化，删除重复的元素
+//      返回删除元素个数
 template <typename T>
 int Vector<T>::deduplicate()
 {
@@ -251,22 +275,26 @@ int Vector<T>::deduplicate()
     return old_size - _size;
 }
 
+// uniquify：有序向量唯一化，删除重复的元素
+//      返回删除元素个数
 template <typename T>
 int Vector<T>::uniquify()
 {
     int old_size = _size;
-    int j = 0;
+    int j = 0;// 新序列的索引,通过此方式使时间复杂度降到O(n)
     for(int i = 0; i < _size; i++){
         if(_elem[i] != _elem[j]){
             _elem[++j] = _elem[i];
         }
     }
     _size = j + 1;
-    shrink();
+    shrink();// 结束时，检查缩容
 
     return old_size - _size;
 }
 
+// traverse：遍历函数
+//      参数：visit，遍历单个元素所用的函数，可传入函数指针或函数引用
 template <typename T>
 void Vector<T>::traverse(void (*visit)(T &))
 {
@@ -284,11 +312,17 @@ void Vector<T>::traverse(VST &visit)
     }
 }
 
+////////////////////////////////////////////////////
+// protected methods
+
+// copyFrom：将数组复制到向量
+//      参数：传入一个数组A,复制范围A[lo, hi)
+//      将向量内容改为A[lo, hi)
 template <typename T>
 void Vector<T>::copyFrom(const T *A, Rank lo, Rank hi)
 {
     _size = 0;
-    _capacity = (hi - lo) * 2;
+    _capacity = (hi - lo) * 2;// 新建空间为传入数组长度的两倍
     _elem = new T[_capacity];
 
     while(lo < hi){
@@ -296,6 +330,7 @@ void Vector<T>::copyFrom(const T *A, Rank lo, Rank hi)
     }
 }
 
+// expand：扩容函数，空间不够是扩容
 template <typename T>
 void Vector<T>::expand()
 {
@@ -303,7 +338,7 @@ void Vector<T>::expand()
     if(_size < _capacity) return ;
     
     T *old_elem = _elem;
-    _capacity *= 2;
+    _capacity *= 2;// 空间变为原来的两倍
     _elem = new T[_capacity];
 
     for(int i = 0; i < _size; i++){
@@ -313,12 +348,13 @@ void Vector<T>::expand()
     delete[] old_elem;
 }
 
+// shrink：缩容函数，当空间利用率低于25%时缩容
 template <typename T>
 void Vector<T>::shrink()
 {
     if(_size * 4 > _capacity) return ;
     T *old_elem = _elem;
-    _capacity /= 2;
+    _capacity /= 2;// 空间变为原来的一半
     _elem = new T[_capacity];
 
     for(int i = 0; i < _size; i++){
@@ -328,12 +364,14 @@ void Vector<T>::shrink()
     delete[] old_elem;
 }
 
+// bubbleSort：冒泡排序
 template <typename T>
 void Vector<T>::bubbleSort(Rank lo, Rank hi)
 {
     BubbleSort<T>(_elem, lo, hi);
 }
 
+// max：返回[lo, hi)中的最大值
 template <typename T>
 Rank Vector<T>::max(Rank lo, Rank hi)
 {
@@ -346,24 +384,28 @@ Rank Vector<T>::max(Rank lo, Rank hi)
     return max;
 }
 
+// selectionSort：选择排序
 template <typename T>
 void Vector<T>::selectionSort(Rank lo, Rank hi)
 {
     SelectionSort<T>(_elem, lo, hi);
 }
 
+// mergeSort：归并排序
 template <typename T>
 void Vector<T>::mergeSort(Rank lo, Rank hi)
 {
     MergeSort<T>(_elem, lo, hi);
 }
 
+// quickSort：快速排序
 template <typename T>
 void Vector<T>::quickSort(Rank lo, Rank hi)
 {
     QuickSort<T>(_elem, lo, hi);
 }
 
+// heapSort：希尔排序
 template <typename T>
 void Vector<T>::heapSort(Rank lo, Rank hi)
 {
