@@ -4,7 +4,6 @@ Vector是C++标准模板库中的部分内容，中文偶尔译作“容器”�
 
 ###接口内容
 
-<pre class="brush:cpp;gutter:true;">
 ```cpp
 typedef     int                 Rank;           // 元素的秩
 #define     DEFAULT_CAPACITY    3               // 初始向量容量
@@ -77,4 +76,3 @@ protected:                                      // 成员变量部分
 
 };
 ```
-</pre>
