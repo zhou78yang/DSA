@@ -31,5 +31,6 @@ private:
     bool TSort( int, int&, Stack<Tv>* );// 基于DFS的拓扑排序算法
     template <typename PU> void PFS(int PU);    // 优先搜索框架
 
+};
 
 #endif

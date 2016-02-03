@@ -1,514 +1,484 @@
-#include <cstdlib>
-#include "listnode.h"
-
 #ifndef LIST_H_
 #define LIST_H_
 
-<<<<<<< HEAD
-typedef int				Rank;								// ÁĞ±íµÄÖÈ
-
-=======
-#include "list_node.h"
-typedef  int    Rank;               // ç»“ç‚¹çš„ç§©
+#include <iostream>
+#include <cstdlib>
+#include "listnode.h"
 
 
-// åˆ—è¡¨æ¨¡æ¿ç±»
->>>>>>> 385612237ee3b2211a443370842b941d317370a7
+typedef int             Rank;                               // åˆ—è¡¨çš„ç§©
+
 template <typename T>
 class List
 {
 protected:
-<<<<<<< HEAD
-	int  _size;												// ¹æÄ£
-	Posi<T> header, trailer;								// Í·ÉÚ±øºÍÎ²ÉÚ±ø
+    int _size;                                              // åˆ—è¡¨é•¿åº¦
+    Posi<T> header, trailer;                                // å¤´ç»“ç‚¹å’Œå°¾ç»“ç‚¹
 
 protected:
-	void init();											// ÁĞ±í³õÊ¼»¯
-	int  clear();											// Çå³ıËùÓĞ½áµã
-	void copyNodes(Posi<T>, int);							// ¸´ÖÆÄ³´®½áµã
-	void merge(Posi<T> &, int, List<T> &, Posi<T>, int);	// ¹é²¢
-	void mergeSort(Posi<T> &, int);							// ¹é²¢ÅÅĞò
-	void selectionSort(Posi<T> &, int);						// Ñ¡ÔñÅÅĞò
-	void insertionSort(Posi<T> &, int);						// ²åÈëÅÅĞò
-	int partition(Posi<T> &, int, Posi<T> &);				// ¿ìÅÅ·Ö¶Î
-	void quickSort(Posi<T> &, int);							// ¿ìËÙÅÅĞò
+    void init();                                            // åˆ—è¡¨åˆå§‹åŒ–
+    int  clear();                                           // æ¸…é™¤æ‰€æœ‰ç»“ç‚¹
+    void copyNodes(Posi<T> p, int n);                       // å¤åˆ¶æŸä¸²ç»“ç‚¹
+    void merge(Posi<T> &p, int n, List<T> &L,           \
+                Posi<T> q, int m);                          // å½’å¹¶
+    void mergeSort(Posi<T> &p, int n);                      // å½’å¹¶æ’åº
+    int  partition(Posi<T> &p, int n, Posi<T> &q);          // å¿«æ’åˆ†æ®µ
+    void quickSort(Posi<T> &p, int n);                      // å¿«é€Ÿæ’åº
+    void selectionSort(Posi<T> &p, int n);                  // é€‰æ‹©æ’åº
+    void insertionSort(Posi<T> &p, int n);                  // æ’å…¥æ’åº
 
 public:
-	// ¹¹Ôìº¯Êı
-	List(){ init(); }										// Ä¬ÈÏ
-	List(const List<T> &L){	copyNodes(L.first(), L._size); }// ÁĞ±í¸´ÖÆ¹¹Ôì
-	List(const List<T> &L, Rank r, int n){ copyNodes(L.getNode(r), n); }
-	List(Posi<T> p, int n){ copyNodes(p, n); }				// ½áµãĞÎÊ½¹¹Ôì
-	// Îö¹¹º¯Êı
-	~List(){ clear(); delete header, trailer; }		
-	
-	// Ö»¶Á·ÃÎÊ½Ó¿Ú
-	Rank size() const{ return _size; }						// ¹æÄ£
-	bool empty() const{ return _size <= 0; }				// ÅĞ¶ÏÊÇ·ñÎª¿Õ
-	Posi<T> first() const{ return header->succ; }			// Ê×½áµãÎ»ÖÃ
-	Posi<T> last() const{ return trailer->pred; }			// Ä©½áµãÎ»ÖÃ
-	bool valid(Posi<T> p) const
-	{
-		return p && (trailer != p) && (header != p);		// ÅĞ¶ÏpÊÇ·ñºÏ·¨
-	}
-	int  disordered() const;								// ÅĞ¶ÏÊÇ·ñÓĞĞò
-	Posi<T> find(const T &e) const;							// ÎŞĞòÁĞ±í²éÕÒ
-	Posi<T> find(const T &e, Posi<T> p, int n) const;		// ÎŞĞòË³´Î²éÕÒ
-	Posi<T> find(const T &e, int n, Posi<T> p) const;		// ÎŞĞòÄæÏò²éÕÒ
-	Posi<T> search(const T &e) const;						// ÓĞĞòÁĞ±í²éÕÒ
-	Posi<T> search(const T &e, Posi<T> p, int n) const;		// ÓĞĞòË³´Î²éÕÒ
-	Posi<T> search(const T &e, int n, Posi<T> p) const;		// ÓĞĞòÄæÏò²éÕÒ
-	Posi<T> selectMax(Posi<T> p, int n);					// Çø¼ä×î´óÖµ
-	Posi<T> selectMax(){ return selectMax(header->succ, _size); }// ÁĞ±í×î´óÖµ
+    // æ„é€ å‡½æ•°
+    List(){ init(); }                                       // é»˜è®¤æ„é€ å‡½æ•°
+    List(const List<T> &L){ copyNodes(L.first(), L._size); }// åˆ—è¡¨æ•´ä½“å¤åˆ¶
+    List(const List<T> &L, Rank r, int n){
+        copyNodes(L.getNode(r), n); }                       // åˆ—è¡¨åŒºé—´å¤åˆ¶
+    List(Posi<T> p, int n){ copyNodes(p, n); }              // ç»“ç‚¹å½¢å¼æ„é€ 
+    // ææ„å‡½æ•°
+    ~List(){ clear(); delete header; delete trailer; }      // æ¸…é™¤åˆ—è¡¨
 
-	// ¿ÉĞ´·ÃÎÊ½Ó¿Ú
-	T &operator [] (Rank r) const;							// ÖØÔØÏÂ±êÔËËã·û
-	Posi<T> &getNode(Rank r) const;							// »ñÈ¡ÁĞ±í½áµã
-	Posi<T> insertAsFirst(const T &e);						// ×÷ÎªÊ×½áµã²åÈë
-	Posi<T> insertAsLast(const T &e);						// ×÷ÎªÄ©½áµã²åÈë
-	Posi<T> insertA(Posi<T> p, const T &e);					// ½«e²åÈëµ½pºó
-	Posi<T> insertB(Posi<T> p, const T &e);					// ½«e²åÈëµ½pÇ°
-	T remove(Posi<T> p);									// É¾³ı½áµãp
-	void merge(List<T> &L)
-	{
-		merge(header->succ, _size, L, L.first(), L._size);	// È«ÁĞ±í¹é²¢
-	}
-	void sort(Posi<T> p, int n);							// ÁĞ±íÇø¼äÅÅĞò
-	void sort(){ sort(first(), _size); }					// ÁĞ±íÈ«¾ÖÅÅĞò
-	int  deduplicate();										// ÎŞĞòÈ¥ÖØ
-	int  uniquify();										// ÓĞĞòÈ¥ÖØ
-	void reverse();											// Ç°ºóµ¹ÖÃ
+    // åªè¯»è®¿é—®æ¥å£
+    Rank size() const{ return _size; }                      // è§„æ¨¡
+    bool empty() const{ return _size <= 0; }                // åˆ¤ç©º
+    Posi<T> first() const{ return header->succ; }           // é¦–ç»“ç‚¹ä½ç½®
+    Posi<T> last() const{ return trailer->pred; }           // æœ«ç»“ç‚¹ä½ç½®
+    bool valid(Posi<T> p) const{
+        return p && (trailer != p) && (header != p); }      // åˆ¤æ–­ï½æ˜¯å¦åˆæ³•
+    int disordered() const;                                 // åˆ¤æ–­æ˜¯å¦æœ‰åº
+    Posi<T> find(const T &e) const;                         // æ— åºåˆ—è¡¨æŸ¥æ‰¾
+    Posi<T> find(const T &e, Posi<T> p, int n) const;       // æ— åºé¡ºæ¬¡æŸ¥æ‰¾
+    Posi<T> find(const T &e, int n, Posi<T> p) const;       // æ— åºé€†å‘æŸ¥æ‰¾
+    Posi<T> search(const T &e) const;                       // æœ‰åºåˆ—è¡¨æŸ¥æ‰¾
+    Posi<T> search(const T &e, Posi<T> p, int n) const;     // æœ‰åºé¡ºæ¬¡æŸ¥æ‰¾
+    Posi<T> search(const T &e, int n, Posi<T> p) const;     // æœ‰åºé€†å‘æŸ¥æ‰¾
+    Posi<T> selectMax(Posi<T> p, int n);                    // åŒºé—´æœ€å¤§å€¼
+    Posi<T> selectMax(){ return selectMax(first(), _size); }// åˆ—è¡¨æœ€å¤§å€¼
 
-	// ±éÀú
-	void traverse(void(*)(T &));							// º¯ÊıÖ¸Õë±éÀú
-	template <typename VST> void traverse(VST &);			// º¯ÊıÒıÓÃ±éÀú
+    // å¯å†™è®¿é—®æ¥å£
+    T &operator [] (Rank r);                                // é‡è½½ä¸‹æ ‡è¿ç®—ç¬¦
+    Posi<T> &getNode(Rank r);                               // è·å–åˆ—è¡¨ç»“ç‚¹
+    Posi<T> insertAsFirst(const T &e);                      // é¦–ç»“ç‚¹æ’å…¥
+    Posi<T> insertAsLast(const T &e);                       // å°¾ç»“ç‚¹æ’å…¥
+    Posi<T> insert(Posi<T> p, const T &e);                  // å°†ï½…æ’å…¥åˆ°ï½å
+    Posi<T> insert(const T &e, Posi<T> p);                  // å°†ï½…æ’å…¥åˆ°ï½å‰
+    T remove(Posi<T> p);                                    // åˆ é™¤ç»“ç‚¹ï½
+    void merge(List<T> &L){
+        merge(header->succ, _size, L, L.first(), L._size); }// å…¨åˆ—è¡¨å½’å¹¶
+    void sort(Posi<T> p, int n);                            // åˆ—è¡¨åŒºé—´æ’åº
+    void sort(){ sort(first(), _size); }                    // åˆ—è¡¨æ•´ä½“æ’åº
+    int  deduplicate();                                     // æ— åºå»é‡
+    int  uniquify();                                        // æœ‰åºå»é‡
+    void reverse();                                         // å‰åå€’ç½®
+    void traverse(void(*)(T &));                            // å‡½æ•°æŒ‡é’ˆéå†
+    template <typename VST> void traverse(VST &);           // å‡½æ•°å¼•ç”¨éå†
 
 };// List
 
 
-///////////////////////////////////////////////////////////////////////////
-// protected²¿·Ö
+/////////////////////////////////////////////////////////////////////////
+// Protectedéƒ¨åˆ†å†…å®¹ï¼š
+//      ä»…ä¾›åˆ—è¡¨å†…éƒ¨ä½¿ç”¨
+//
 
+
+// init:
+//      åˆå§‹åŒ–åˆ—è¡¨
 template <typename T>
 void List<T>::init()
 {
-	// ¶ÔÁĞ±í½øĞĞ³õÊ¼»¯
-	header = new ListNode<T>();
-	trailer = new ListNode<T>();
-	header->succ = trailer; header->pred = NULL;
-	trailer->pred = header; trailer->succ = NULL;
-	_size = 0;
+    header = new ListNode<T>();
+    trailer = new ListNode<T>();
+    header->pred = NULL; header->succ = trailer;
+    trailer->pred = header; trailer->succ = NULL;
+    _size = 0;
 }
 
+
+// clear:
+//      æ¸…ç©ºåˆ—è¡¨ä¸­çš„æ‰€æœ‰å…ƒç´ ï¼Œå¹¶è¿”å›å…ƒç´ ä¸ªæ•°
 template <typename T>
 int List<T>::clear()
 {
-	int oldSize = _size;
-	while (0 < _size) remove(header->succ);
-	return oldSize;
+    int oldSize = _size;
+    while(0 < _size) remove(header->succ);
+    return oldSize;
 }
 
+
+// copyNodes:
+//      å¤åˆ¶ç»“ç‚¹ä¸²
 template <typename T>
 void List<T>::copyNodes(Posi<T> p, int n)
 {
-	init();	// ³õÊ¼»¯ÁĞ±í
-	while (0 < n--)
-	{
-		insertAsLast(p->data);	// Ë³´Î²åÈë
-		p = p->succ;
-	}
+    init(); // åˆå§‹åŒ–åˆ—è¡¨
+    while(0 < n--)
+    {
+        insertAsLast(p->data);  // é¡ºæ¬¡æ’å…¥
+        p = p->succ;
+    }
 }
 
+
+// partition:
+//      å®ç°åˆ—è¡¨åˆ†æ®µï¼Œå‚æ•°ï½è¡¨ç¤ºåˆ—è¡¨èµ·ç‚¹ï¼Œï½è¡¨ç¤ºåˆ—è¡¨é•¿åº¦
+//      æœ€ç»ˆï½æŒ‡å‘å‰åŠæ®µèµ·ç‚¹ï¼Œï½‘æŒ‡å‘ååŠæ®µèµ·ç‚¹
 template <typename T>
 int List<T>::partition(Posi<T> &p, int n, Posi<T> &q)
 {
-	// pÎªÎ´ÅÅĞò×ÓĞòÁĞÆğµã£¬nÎª×ÓĞòÁĞ³¤¶È
-	// ×îÖÕpÖ¸ÏòÇ°°ë¶ÎÆğµã£¬qÖ¸Ïòºó°ë¶ÎÆğµã
-	int m = 0;	// ¼ÆËã±ÈpĞ¡µÄ½áµã¸öÊı
-	Posi<T> head = p->pred;	// ¼ÇÂ¼Í·½áµã
-	q = p->succ;
-	for (int i = 1; i < n; i++)
-	{
-		// ½øĞĞn-1´Î±È¶Ô£¬½«±ÈpĞ¡µÄ½áµã²åÈëµ½pÇ°
-		q = q->succ;
-		if (p->data > q->pred->data)
-		{
-			insertB(p, remove(q->pred));
-			m++;
-		}
-	}
-	q = p->succ;	// qÎªºó°ë¶ÎÆğµã
-	p = head->succ;	// p»Ö¸´Îª×ÓÁĞ±íÆğµã
-	return m;	// ·µ»ØºóÒ»¶Î×ÓÁĞ±íµÄ³¤¶È
+    int m = 0;  // è®°å½•æ¯”ï½å°çš„ç»“ç‚¹æ•°
+    Posi<T> head = p->pred; // è®°å½•å¤´ç»“ç‚¹
+    q = p->succ;
+    for(int i = 1; i < n; i++)
+    {
+        // è¿›è¡Œn-1æ¬¡æ¯”å¯¹ï¼Œå°†æ¯”ï½å°çš„ç»“ç‚¹ä¾æ¬¡æ’å…¥ï½å‰
+        q = q->succ;
+        if(p->data > q->pred->data)
+        {
+            insert(remove(q->pred), p);
+            m++;
+        }
+    }
+    q = p->succ;    // ï½‘ä¸ºååŠæ®µèµ·ç‚¹
+    p = head->succ; // ï½æ¢å¤ä¸ºå‰åŠæ®µèµ·ç‚¹å³åˆ—è¡¨èµ·ç‚¹
+    return m;       // è¿”å›å‰åŠæ®µåˆ—è¡¨é•¿åº¦
 }
 
+
+// quickSort:
+//      å¿«é€Ÿæ’åºï¼Œå¯¹ä»ï½ï¼ˆåŒ…æ‹¬ï½ï¼‰å¼€å§‹çš„ï½ä¸ªç»“ç‚¹è¿›è¡Œæ’åº
+//      è¦æ±‚ï½æœ€ç»ˆæŒ‡å‘æœ‰åºåˆ—è¡¨çš„èµ·ç‚¹
 template <typename T>
 void List<T>::quickSort(Posi<T> &p, int n)
 {
-	// ¿ìËÙÅÅĞò£¬¶Ô´Óp¿ªÊ¼µÄn¸ö½áµã½øĞĞÅÅĞò
-	// ÒªÇóp×îÖÕÖ¸ÏòÓĞĞòÁĞ±íµÄÆğµã
-	if (n < 2) return;
-	Posi<T> q;	// ÓÉÓÚList·ÃÎÊµÄ²»±ãĞÔ£¬¹ÊÓÃqÀ´»ñÈ¡ºó°ë¶ÎÆğµã
-	int m = partition(p, n, q);	// m´æ´¢Ç°°ë¶Î³¤¶È
-	quickSort(p, m); 
-	quickSort(q, n - m - 1);
+    if(n < 2) return;
+    Posi<T> q;  // ç”±äºListè®¿é—®çš„ä¸ä¾¿æ€§ï¼Œæ•…ç”¨ï½‘æ¥è·å–ååŠæ®µèµ·ç‚¹
+    int m = partition(p, n, q);  // må­˜å‚¨å‰åŠæ®µé•¿åº¦
+    quickSort(p, m);
+    quickSort(q, n - m - 1);
 }
 
+
+// merge:
+//      å½’å¹¶å‡½æ•°ï¼Œå®ç°ä¸¤æ®µåˆ—è¡¨çš„å½’å¹¶
+//      pä¸ºå½“æœŸListçš„æŸä¸ªç»“ç‚¹ï¼Œï½ä¸ºï½å¼€å¤´åˆ—è¡¨æ®µé•¿åº¦
+//      ï½‘ä¸ºåˆ—è¡¨Lçš„æŸä¸ªç»“ç‚¹ï¼Œï½ä¸ºï½‘å¼€å¤´åˆ—è¡¨æ®µé•¿åº¦
 template <typename T>
-void List<T>::merge(Posi<T> &p, int la, List<T> &L, Posi<T> b, int lb)
+void List<T>::merge(Posi<T> &p, int n, List<T> &L, Posi<T> q, int m)
 {
-	// pÎªÁĞ±íÖĞµÄÄ³¸ö½áµã£¬laÎª×ÓÁĞ±í³¤¶È
-	// bÎªÁĞ±íLÖĞµÄÄ³¸ö½áµã£¬lbÎª×ÓÁĞ±í³¤¶È
-	Posi<T> head = p->pred;	// ¼ÇÂ¼¹é²¢Çø¼äµÄÇ°½áµã
-	Posi<T> a = p;	// pµÄÖµ¿½±´
-	while (lb > 0)
-	{
-		if (la > 0 && (a->data <= b->data))
-		{
-			a = a->succ; la--;
-			if (a == b) break;
-		}
-		else
-		{
-			b = b->succ; lb--;
-			insertB(a, L.remove(b->pred));	// ²åÈëµ½aÇ°
-		}			
-	}
-	p = head->succ;	// ½«p»Ö¸´Îª¹é²¢Çø¼äµÄÊ×½áµã
+    Posi<T> head = p->pred; // è®°å½•å½’å¹¶åŒºé—´çš„å¤´ç»“ç‚¹
+    Posi<T> r = p;          // pçš„å€¼æ‹·è´
+    while(0 < m)
+    {
+        if(0 < n && (r->data <= q->data))
+        {
+            r = r->succ; n--;
+            if(r == q) break;   // é’ˆå¯¹ï½‘å…ƒç´ ç»“å°¾çš„æƒ…å†µå¤„ç†
+        }
+        else
+        {
+            q = q->succ; m--;
+            insert(L.remove(q->pred), r);   // æ’å…¥åˆ°rå‰
+        }
+    }
+    p = head->succ; // å°†ï½ç§»å›å½’å¹¶åŒºé—´çš„é¦–ç»“ç‚¹
 }
 
+
+// mergeSort:
+//      å½’å¹¶æ’åº
 template <typename T>
 void List<T>::mergeSort(Posi<T> &p, int n)
 {
-	// ¹é²¢ÅÅĞò£¬ÊµÏÖ´Óp¿ªÊ¼µÄn¸ö½áµãµÄÅÅĞò
-	if (n < 2) return;
-	int m = n / 2;
-	Posi<T> q = p;
-	for (int i = 0; i < m; i++) q = q->succ;// ¾ù·ÖÁĞ±í
-	mergeSort(p, m); mergeSort(q, n - m);	// »®·ÖÁ½¶ÎÅÅĞò
-	merge(p, m, *this, q, n - m);	// ¹é²¢
+    if(n < 2) return;
+    int m = n / 2;
+    Posi<T> q = p;
+    for(int i = 0; i < m; i++) q = q->succ; // å‡åˆ†åˆ—è¡¨
+    mergeSort( p, m); mergeSort( q, n - m); // åˆ’åˆ†ä¸¤æ®µæ’åº
+    merge( p, m, *this, q, n - m);          // å½’å¹¶
 }
 
+
+// selectionSort:
+//      é€‰æ‹©æ’åº
 template <typename T>
 void List<T>::selectionSort(Posi<T> &p, int n)
 {
-	Posi<T> head = p->pred; Posi<T> tail = p;	// Í·¡¢Î²½áµã
-	for (int i = 0; i < n; i++) tail = tail->succ;	// ´ıÅÅÇø¼ä[p, tail)
-	while (1 < n)
-	{
-		Posi<T> q = selectMax(head->succ, n);// ´ıÅÅÇø¼äÖĞµÄ×î´óÖµ
-		insertB(tail, remove(q));	// ½«×î´óÖµ²åÈëµ½Î´ÅÅĞò²¿·ÖÄ©Î²
-		tail = tail->pred; n--;		// ÊÕËõÎ´ÅÅĞò²¿·Ö
-	}
+    Posi<T> head = p->pred; Posi<T> tail = p;   // å¤´ã€å°¾ç»“ç‚¹
+    for(int i = 0; i < n; i++) tail = tail->succ;   // å¾…æ’åŒºé—´(head, tail)
+    while(1 < n)
+    {
+        Posi<T> q = selectMax(head->succ, n);   // å¾…æ’åŒºé—´ä¸­çš„æœ€å¤§å€¼
+        insert(remove(q), tail);    // å°†æœ€å¤§å€¼æ’å…¥åˆ°ä¸ºæ’åºéƒ¨åˆ†æœ«å°¾
+        tail = tail->pred; n--;     // æ”¶ç¼©æœªæ’åºéƒ¨åˆ†
+    }
 }
 
+
+// insertionSort:
+//      æ’å…¥æ’åº
 template <typename T>
 void List<T>::insertionSort(Posi<T> &p, int n)
 {
-	Posi<T> head = p->pred, tail = p, q = p->succ;	// Í·¡¢Î²¡¢´ı²åÈë½áµã
-	for (int i = 0; i < n; i++) tail = tail->succ;	// tailÎªÄ©½áµãµÄºó¼Ì
-	while (q != tail)
-	{
-		Posi<T> r = q->pred;
-		while (r != head && r->data > q->data) r = r->pred;	// ÕÒµ½²åÈëÎ»ÖÃ
-		insertA(r, q->data);	// ²åÈëµ½rµÄºóÃæ
-		q = q->succ; remove(q->pred);	// qÖ¸ÏòÏÂÒ»¸ö£¬²¢É¾³ıÖ®Ç°²åÈë½áµã
-	}
+    Posi<T> head = p->pred, tail = p;   // å¤´ã€å°¾ç»“ç‚¹
+    for(int i = 0; i < n; i++) tail = tail->succ;
+    p = p->succ;
+    while(p != tail)
+    {
+        Posi<T> r = p->pred;
+        while(r != head && r->data > p->data) r = r->pred;  // æ‰¾åˆ°æ’å…¥ä½ç½®
+        p = p->succ; insert(r, remove(p->pred)); // æ’å…¥åˆ°ï½’å
+    }
 }
 
 
-///////////////////////////////////////////////////////////////////////////
-// Ö»¶Á·ÃÎÊ½Ó¿Ú
 
+
+//////////////////////////////////////////////////////////////////////////////
+// åªè¯»è®¿é—®æ¥å£
+//
+
+
+// disoredered: æŸ¥çœ‹æ˜¯å¦æœ‰åºï¼Œè¿”å›é€†åºæ•°
 template <typename T>
 int List<T>::disordered() const
 {
-	int c = 0;	// ÄæĞòÊı¼ÇÂ¼
-	Posi<T> p = first();
-	while (trailer != p->succ)
-	{
-		if (p->data > p->succ->data) c++;
-	}
-	return c;
+    int c = 0;
+    Posi<T> p = first();
+    while(trailer != (p = p->succ))
+    {
+        if(p->pred->data > p->data) c++;
+    }
+    return c;
 }
 
+
+// find:
+//      æ— åºåˆ—è¡¨æŸ¥æ‰¾å‡½æ•°ï¼Œï½…ä¸ºæŸ¥æ‰¾çš„å€¼ï¼Œï½ä¸ºæŸ¥æ‰¾çš„ç«¯ç‚¹ï¼Œï½ä¸ºæŸ¥æ‰¾é•¿åº¦
+//      ï½åœ¨ï½å‰åˆ™è¡¨ç¤ºä»ï½å‘å‰æŸ¥æ‰¾ï½ä¸ªç»“ç‚¹ï¼ŒåŒç†ï¼Œï½åœ¨ï½ååˆ™è¡¨ç¤ºå‘åæŸ¥æ‰¾
+//      æ³¨æ„ï¼šæŸ¥æ‰¾çš„å…ƒç´ ä¸åŒ…å«ï½
 template <typename T>
 Posi<T> List<T>::find(const T &e) const
 {
-	// ÄæÏò²éÕÒ
-	return find(e, _size, trailer);
+    return find(e, _size, trailer);
 }
 
 template <typename T>
 Posi<T> List<T>::find(const T &e, Posi<T> p, int n) const
 {
-	// ²éÕÒpµÄn¸ö£¨Õæ£©ºó¼Ì£¬¼´p×÷ÎªheaderµÄÁ´±í
-	while (0 < n--)
-	{
-		if (e == (p = p->succ)->data) return p;
-	}
-	return NULL;;
+    while(0 < n--)
+    {
+        if(e == (p = p->succ)->data) return p;
+    }
+    return NULL;    // æŸ¥æ‰¾å¤±è´¥è¿”å›NULL
 }
 
 template <typename T>
 Posi<T> List<T>::find(const T &e, int n, Posi<T> p) const
 {
-	// ²éÕÒpµÄn¸ö£¨Õæ£©Ç°Çı£¬¼´p×÷ÎªtrailerµÄÁ´±í
-	while (0 < n--)
-	{
-		if (e == (p = p->pred)->data) return p;
-	}
-	return NULL;
+    while(0 < n--)
+    {
+        if(e == (p = p->pred)->data) return p;
+    }
+    return NULL;
 }
 
+
+// search:
+//      æœ‰åºåˆ—è¡¨æŸ¥æ‰¾å‡½æ•°ï¼Œï½…ä¸ºæŸ¥æ‰¾çš„å€¼ï¼Œï½ä¸ºæŸ¥æ‰¾çš„ç«¯ç‚¹ï¼Œï½ä¸ºæŸ¥æ‰¾é•¿åº¦
+//      ï½åœ¨ï½å‰åˆ™è¡¨ç¤ºä»ï½å‘å‰æŸ¥æ‰¾ï½ä¸ªç»“ç‚¹ï¼ŒåŒç†ï¼Œï½åœ¨ï½ååˆ™è¡¨ç¤ºå‘åæŸ¥æ‰¾
+//      æ³¨æ„ï¼šæŸ¥æ‰¾çš„å…ƒç´ ä¸åŒ…å«ï½
 template <typename T>
 Posi<T> List<T>::search(const T &e) const
 {
-	return search(e, _size, trailer);	// ÄæÏòËÑË÷
+    return search(e, _size, trailer);
 }
 
 template <typename T>
 Posi<T> List<T>::search(const T &e, Posi<T> p, int n) const
 {
-	while (0 < n-- && (p = p->succ)->data < e);
-	return p->data == e ? p : NULL;
+    while(0 < n-- && (p = p->succ)->data < e) ;
+    return p->data == e ? p : NULL;
 }
 
 template <typename T>
 Posi<T> List<T>::search(const T &e, int n, Posi<T> p) const
 {
-	while (0 < n-- && (p = p->pred)->data > e);
-	return p->data == e ? p : NULL;
+    while(0 < n-- && (p = p->pred)->data > e) ;
+    return p->data == e ? p : NULL;
 }
 
+
+// selectMax:
+//      æŒ‘é€‰ä»ï½å¼€å§‹çš„ï½ä¸ªç»“ç‚¹ä¸­çš„æœ€å¤§å€¼
 template <typename T>
 Posi<T> List<T>::selectMax(Posi<T> p, int n)
 {
-	// ÌôÑ¡´Óp¿ªÊ¼µÄn¸öÔªËØµÄ×î´óÖµ
-	Posi<T> max = p;
-	while (1 < n--)
-	{
-		if ((p = p->succ)->data > max->data) max = p;
-	}
-	return max;
+    Posi<T> max = p;
+    while(1 < n--)
+    {
+        if((p = p->succ)->data > max->data) max = p;
+    }
+    return max;
 }
 
 
-/////////////////////////////////////////////////////////////////////////
-// ¿ÉĞ´·ÃÎÊ½Ó¿Ú
+
+
+////////////////////////////////////////////////////////////////////////
+// å¯å†™è®¿é—®æ¥å£
+//
+
+
+// é‡è½½[]è¿ç®—ç¬¦ï¼Œè¿”å›çš„æ˜¯ç¬¬ï½’ä¸ªç»“ç‚¹çš„å€¼
+// æ³¨æ„ï¼šæ•ˆç‡ä½ä¸‹ï¼Œå°½é‡å°‘ç”¨
+template <typename T>
+T &List<T>::operator [] (Rank r)
+{
+    Posi<T> p = first();
+    while(0 < r--) p = p->succ;
+    return p->data;
+}
 
 template <typename T>
-T &List<T>::operator [] (Rank r) const
+Posi<T> &List<T>::getNode(Rank r)
 {
-	// ÁĞ±íÖĞ½áµãµÄÖµµÄÓ³Éä£¬Ğ§ÂÊµÍÏÂ£¬¾¡Á¿ÉÙÓÃ
-	Posi<T> p = first();	// ´ÓÊ×½áµã³ö·¢
-	while (0 < r--) p = p->succ;	// Ë³ÊıµÚr¸ö½áµã
-	return p->data;	// ·µ»Ø½áµãÄÚÈİ
+    Posi<T> p = first();
+    while(0 < r--) p = p->succ;
+    return p;
 }
 
-template <typename T>
-Posi<T> &List<T>::getNode(Rank r) const
-{
-	// ·µ»ØÁĞ±íµÄ½áµã
-	Posi<T> p = first();
-	while (0 < r--) p = p->succ;
-	return p;
-}
 
+// insertAsFirst: é¦–ç»“ç‚¹æ’å…¥
 template <typename T>
 Posi<T> List<T>::insertAsFirst(const T &e)
-{ 
-	_size++;
-	return header->insertAsSucc(e);
+{
+    _size++;
+    return header->insertAsSucc(e);
 }
 
+
+// insertAsLast: æœ«ç»“ç‚¹æ’å…¥
 template <typename T>
 Posi<T> List<T>::insertAsLast(const T &e)
 {
-	_size++;
-	return trailer->insertAsPred(e);
+    _size++;
+    return trailer->insertAsPred(e);
 }
+
+
+// insert: æ’å…¥å‡½æ•°
+//      å€¼ï½…åœ¨ï½å‰æ—¶è¡¨ç¤ºæ’å…¥åœ¨ï½å‰é¢ï¼Œï½…åœ¨ï½åæ—¶è¡¨ç¤ºæ’å…¥åœ¨ï½å
+template <typename T>
+Posi<T> List<T>::insert(Posi<T> p, const T &e)
+{
+    // insert after
+    _size++;
+    return p->insertAsSucc(e);
+}
+
 
 template <typename T>
-Posi<T> List<T>::insertA(Posi<T> p, const T &e)
+Posi<T> List<T>::insert(const T &e, Posi<T> p)
 {
-	// insert after
-	_size++;
-	return p->insertAsSucc(e);
+    // insert before
+    _size++;
+    return p->insertAsPred(e);
 }
 
-template <typename T>
-Posi<T> List<T>::insertB(Posi<T> p, const T &e)
-{
-	// insert before
-	_size++;
-	return p->insertAsPred(e);
-}
 
+// remove: åˆ é™¤ç»“ç‚¹
+//      åˆ é™¤ç»“ç‚¹ï½ï¼Œå¹¶è¿”å›å…¶å†…å®¹
 template <typename T>
 T List<T>::remove(Posi<T> p)
 {
-	T e = p->data;	// Êı¾İ±¸·İ
-	p->pred->succ = p->succ;	// pÇ°ÇıµÄºó¼Ì±äÎªpµÄºó¼Ì
-	p->succ->pred = p->pred;	// pºó¼ÌµÄÇ°Çı±äÎªpµÄÇ°Çı
-	delete p;	// ÊÍ·ÅpµÄ¿Õ¼ä
-	_size--;	// ¹æÄ£¼õĞ¡
-	return e;
+    T e = p->data;      // æ•°æ®å¤‡ä»½
+    p->pred->succ = p->succ;
+    p->succ->pred = p->pred;
+    delete p;
+    _size--;
+    return e;
 }
 
+
+// sort:
+//      å¯¹åˆ—è¡¨è¿›è¡Œæ’åºï¼Œéšæœºé€‰æ‹©æ’åºç®—æ³•
 template <typename T>
 void List<T>::sort(Posi<T> p, int n)
 {
-	// ¶ÔÆğÊ¼Î»ÖÃÎªpµÄn¸öÔªËØ½øĞĞÅÅĞò
-	quickSort(p, n); return;
-	switch (rand() % 3)
-	{
-	// Ëæ»úÑ¡ÔñÅÅĞò·½Ê½
-	case 1: insertionSort(p, n); break;
-	case 2: selectionSort(p, n); break;
-	case 3: quickSort(p, n); break;
-	default: mergeSort(p, n); break;
-	}
-
+    int kinds = 4;
+    switch(rand() % kinds)
+    {
+    case 1: insertionSort( p, n); break;
+    case 2: selectionSort( p, n); break;
+    case 3: quickSort( p, n); break;
+    default: mergeSort( p, n); break;
+    }
 }
 
+
+// deduplicate:
+//      æ— åºåˆ—è¡¨å»é‡æ“ä½œ
 template <typename T>
 int List<T>::deduplicate()
 {
-	// ÎŞĞòÁĞ±íµÄÈ¥ÖØ²Ù×÷
-	if (_size < 2) return 0;
-	int oldSize = _size;
-	Posi<T> p = header; Rank r = 0;
-	while (trailer != (p = p->succ))
-	{
-		Posi<T> q = find(p->data, r, p);// ²éÕÒpÇ°µÄr¸öÔªËØ
-		q ? remove(q) : r++;	// Èôq´æÔÚÔòÉ¾³ıq
-	}
-	return oldSize - _size;
+    if(_size < 2) return 0;
+    int oldSize = _size;
+    Posi<T> p = header; Rank r = 0;
+    while(trailer != (p = p->succ))
+    {
+        Posi<T> q = find(p->data, r, p);    // æŸ¥æ‰¾ï½å‰çš„ï½’ä¸ªå…ƒç´ 
+        q ? remove(q) : r++;    // è‹¥ï½‘å­˜åœ¨åˆ™åˆ é™¤ï½‘
+    }
+    return oldSize - _size; // è¿”å›åˆ æ‰çš„ç»“ç‚¹æ•°
 }
 
+
+// reverse: åˆ—è¡¨åè½¬å‡½æ•°
+template <typename T>
+void List<T>::reverse()
+{
+    if( _size < 2) return;
+    for(auto p = header; p; p = p->pred)
+    {
+        std::swap(p->pred, p->succ);// äº¤æ¢æ¯ä¸ªç»“ç‚¹çš„å‰é©±å’Œåç»§
+    }
+    std::swap(header, trailer);  // å¤´å°¾ç»“ç‚¹äº¤æ¢
+}
+
+
+// uniquify:
+//      æœ‰åºåˆ—è¡¨å»é‡æ“ä½œ
 template <typename T>
 int List<T>::uniquify()
 {
-	// ÓĞĞòÁĞ±íµÄÈ¥ÖØ²Ù×÷
-	if (_size < 2) return 0;
-	int oldSize = _size;
-	Posi<T> p = header->succ; Posi<T> q;
-	while (trailer != (q = p->succ))
-	{
-		// ·´¸´¿¼²éÏàÁÚ½áµã¶ÔpºÍq
-		if (p->data == q->data) remove(q);
-		else p = q;
-	}
-	return oldSize - _size;
+    if(_size < 2) return 0;
+    int oldSize = _size;
+    Posi<T> p = header->succ; Posi<T> q;
+    while(trailer != (q = p->succ))
+    {
+        // åå¤è€ƒæŸ¥ç›¸é‚»ç»“ç‚¹å¯¹ï½å’Œï½‘
+        if(p->data == q->data) remove(q);
+        else p = q;
+    }
+    return oldSize - _size;
 }
 
+
+// traverse: éå†å‡½æ•°
 template <typename T>
-void List<T>::traverse(void(*visit)(T &))
+void List<T>::traverse(void (*visit)(T &))
 {
-	for (auto p = first(); p != trailer; p = p->succ) visit(p->data);
+    for(auto p = first(); p != trailer; p = p->succ) visit(p->data);
 }
 
 template <typename T> template <typename VST>
 void List<T>::traverse(VST &visit)
 {
-	for (auto p = first(); p != trailer; p = p->succ) visit(p->data);
-}
-=======
-    int _size;                      // è§„æ¨¡
-    ListNodePosi header;            // å¤´å“¨å…µ
-    ListNodePosi trailer;           // å°¾å“¨å…µ
-
-protected:
-    void init();                    // åˆ—è¡¨åˆå§‹åŒ–
-    int  clear();                   // æ¸…é™¤æ‰€æœ‰ç»“ç‚¹
-    void copyNodes(ListNodePosi, int);// å¤åˆ¶åˆ—è¡¨ä¸­è‡ªä½ç½®Pèµ·çš„né¡¹
-    void merge(ListNodePosi&, int, List<T>&, ListNodePosi, int); // å½’å¹¶
-    void mergeSort(ListNodePosi&, int); // å¯¹ä»på¼€å§‹çš„nä¸ªç»“ç‚¹è¿›è¡Œå½’å¹¶æ’åº
-    void selectionSort(ListNodePosi, int); // å¯¹ä»på¼€å§‹çš„nä¸ªç»“ç‚¹è¿›è¡Œé€‰æ‹©æ’åº
-    void insertionSort(ListNodePosi, int); // å¯¹ä»på¼€å§‹çš„nä¸ªç»“ç‚¹è¿›è¡Œæ’å…¥æ’åº
-
-public:
-    // æ„é€ å‡½æ•°
-    List() { init(); }                  // é»˜è®¤æ„é€ å‡½æ•°
-    List(const List<T> &L);             // æ•´ä½“å¤åˆ¶åˆ—è¡¨L
-    List(const List<T> &L, Rank r, int n);// å¤åˆ¶åˆ—è¡¨Lä¸­è‡ªrå¼€å§‹çš„nä¸ªç»“ç‚¹
-    List(ListNodePosi p, int n);        // å¤åˆ¶åˆ—è¡¨ä¸­è‡ªä½ç½®pèµ·çš„né¡¹
-    // ææ„å‡½æ•°
-    ~List();
-
-    // åªè¯»è®¿é—®æ¥å£
-    Rank size() const { return _size; } // è§„æ¨¡
-    bool empty() const { return _size <= 0; } // åˆ¤æ–­æ˜¯å¦ä¸ºç©º
-    T &operator [](Rank r) const;// é‡è½½ï¼Œæ”¯æŒå¯»ç§©è®¿é—®
-    ListNodePosi first() const { return header->next; }
-    ListNodePosi last() const { return trailer->pre; }
-    bool valid(ListNodePosi p) const    // åˆ¤æ–­pç»“ç‚¹æ˜¯å¦å¯ç”¨
-    { return p && (p != header) && (p != trailer); }
-    int disordered() const; // åˆ¤æ–­æ˜¯å¦æœ‰åº
-    ListNodePosi find(const T &e) const;// æ— åºåˆ—è¡¨æ•´ä½“æŸ¥æ‰¾
-    ListNodePosi find(const T &e, ListNodePosi p, int n) const;// æ— åºåˆ—è¡¨åŒºé—´æŸ¥æ‰¾
-    ListNodePosi search(const T &e) const;// æœ‰åºåˆ—è¡¨æ•´ä½“æŸ¥æ‰¾
-    ListNodePosi search(const T &e, ListNodePosi p, int n) const;// æœ‰åºåˆ—è¡¨åŒºé—´æŸ¥æ‰¾
-    ListNodePosi max() const;// è·å–æ•´ä½“æœ€å¤§å€¼
-    ListNodePosi max(ListNodePosi p, int n) const;// åœ¨påçš„nä¸ªç»“ç‚¹ä¸­é€‰å–æœ€å¤§å€¼
-
-    // å¯å†™è®¿é—®æ¥å£
-    ListNodePosi insertAsFirst(const T &e);     // å°†eä½œä¸ºé¦–ç»“ç‚¹æ’å…¥
-    ListNodePosi insertAsLast(const T &e);      // å°†eä½œä¸ºå°¾ç»“ç‚¹æ’å…¥
-    ListNodePosi insertA(ListNodePosi p, const T &e);// å°†eä½œä¸ºpçš„åç»§æ’å…¥
-    ListNodePosi insertB(ListNodePosi p, const T &e);// å°†eä½œä¸ºpçš„å‰é©±æ’å…¥
-    T remove(ListNodePosi p);                   // åˆ é™¤ç»“ç‚¹p
-    void merge(List<T> &L);                     // æ’å…¥ä¸€ä¸ªåˆ—è¡¨
-    void sort();                                // åˆ—è¡¨æ’åº
-    void sort(ListNodePosi p, int n);           // åˆ—è¡¨åŒºé—´æ’åº
-    int  deduplicate();                         // æ— åºå»é‡
-    int  uniquify();                            // æœ‰åºå»é‡
-    void reverse();                             // åè½¬åˆ—è¡¨
-
-    // éå†
-    void traverse(void (*)(T&));                // å‡½æ•°æŒ‡é’ˆä¼ å…¥éå†
-    template <typename VST> void traverse(VST&);// å‡½æ•°å¼•ç”¨ä¼ å…¥éå†
->>>>>>> 385612237ee3b2211a443370842b941d317370a7
-
-
-<<<<<<< HEAD
-#endif
-=======
-
-template <typename T>
-void List<T>::init()
-{
-    header = new ListNode();
-    trailer = new ListNode();
-    header->pre = NULL; header->next = trailer;
-    trailer->pre = header; trailer->next = NULL;
-    _size = 0;
+    for(auto p = first(); p != trailer; p = p->succ) visit(p->data);
 }
 
-template <typename T>
-int List<T>::clear()
-{
-    while(header->next != trailer)
-    {
-        ListNodePosi tmp = header->next->next;
-        delete header->next;
-        header->next = tmp;
-    }
-    trailer->pre = header;
-}
 
-template <typename T>
-void copyNodes(ListNodePosi p, int n)
-{
-    init();// åˆå§‹åŒ–åˆ—è¡¨
-    while(n--)
-    {
-        insertAsLast(p->data);
-        p = p->next;
-    }
-}
+
 
 
 #endif
->>>>>>> 385612237ee3b2211a443370842b941d317370a7

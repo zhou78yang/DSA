@@ -2,39 +2,37 @@
 #define LIST_NODE_H_
 
 template <typename T> struct ListNode;
-template <typename T> using Posi = ListNode<T>*;		// ÁĞ±í½áµãÎ»ÖÃ
+template <typename T> using Posi = ListNode<T>*;        // åˆ—è¡¨ç»“ç‚¹ä½ç½®
 
 template <typename T>
 struct ListNode
 {
-	T data;												// ½áµãÊı¾İ
-	Posi<T> pred, succ;									// Ç°ÇıºÍºó¼Ì
+    T data;                                             // ç»“ç‚¹æ•°æ®
+    Posi<T> pred, succ;                                 // å‰é©±å’Œåç»§
 
-	// ¹¹Ôìº¯Êı
-	ListNode(){}										// Õë¶ÔÍ·Î²½áµã¹¹Ôì
-	ListNode(T e, Posi<T> p, Posi<T> s)
-		:data(e), pred(p), succ(s){}					// Ä¬ÈÏ¹¹ÔìÆ÷
-	
-	// ²Ù×÷½Ó¿Ú
-	Posi<T> insertAsPred(const T &e);					// ²åÈëÎªÇ°Çı
-	Posi<T> insertAsSucc(const T &e);					// ²åÈëÎªºó¼Ì
-};
-
+    // æ„é€ å‡½æ•°
+    ListNode(){}                                        // ç”¨äºåˆ›å»ºå¤´å°¾ç»“ç‚¹
+    ListNode(T e, Posi<T> p, Posi<T> s)
+        : data(e), pred(p), succ(s){}               
+    // æ“ä½œæ¥å£
+    Posi<T> insertAsPred(const T &e);                   // ä½œä¸ºå‰é©±æ’å…¥
+    Posi<T> insertAsSucc(const T &e);                   // ä½œä¸ºåç»§æ’å…¥
+};// ListNode
 
 template <typename T>
 Posi<T> ListNode<T>::insertAsPred(const T &e)
 {
-	Posi<T> n = new ListNode(e, pred, this);	// ´´½¨ĞÂ½áµã
-	pred->succ = n; pred = n;	// ĞŞ¸ÄÁ´½Ó
-	return n;
+    Posi<T> n = new ListNode(e, pred, this);    // åˆ›å»ºæ–°ç»“ç‚¹
+    pred->succ = n; pred = n;   // ä¿®æ”¹å‰åç»“ç‚¹é“¾æ¥
+    return n;
 }
 
 template <typename T>
 Posi<T> ListNode<T>::insertAsSucc(const T &e)
 {
-	Posi<T> n = new ListNode(e, this, succ);	// ´´½¨ĞÂ½áµã
-	succ->pred = n; succ = n;	// ĞŞ¸ÄÁ´½Ó
-	return n;
+    Posi<T> n = new ListNode(e, this, succ);    // åˆ›å»ºæ–°ç»“ç‚¹
+    succ->pred = n; succ = n;   // æ›´æ–°é“¾æ¥
+    return n;
 }
 
 #endif 
