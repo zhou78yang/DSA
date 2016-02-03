@@ -434,6 +434,19 @@ int List<T>::deduplicate()
 
 
 // reverse: 列表反转函数
+/*
+ *数值交换版本
+ *
+template <typename T>
+void List<T>::reverse()
+{
+    Posi<T> p = header; Posi<T> q = trailer;
+    for(int i = 0; i < _size; i += 2)
+    {
+        std::swap((p = p->succ)->data, (q = q->pred)->data);
+    }
+}
+*/
 template <typename T>
 void List<T>::reverse()
 {
