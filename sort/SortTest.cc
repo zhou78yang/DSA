@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <ctime>
-#include "????_sort.h"
+#include "quick_sort.h"
 
 using namespace std;
 
@@ -21,7 +21,7 @@ int main(int argc, char **argv)
     }
     cout << endl;
 
-    ????Sort<int>(A, 0, n);
+    QuickSort<int>(A, 0, n);
 
     cout << "sorted: " ;
     for(int i = 0; i < n; i++){
