@@ -1,4 +1,4 @@
-# [DSA]
+# [DSA](./)
 
 DSA即（DataStructure + Algorithm），包含了一些数据结构和算法的实现
 
