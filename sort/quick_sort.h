@@ -23,14 +23,14 @@ template <typename T>
 int Partition_B(T *A, int lo, int hi)
 {
     T pivot = A[lo];
-    while(lo < hi){
-        while(lo < hi && A[--hi] >= pivot) ;
-        A[lo] = A[hi];
-        while(lo < hi && A[++lo] <= pivot) ;
-        A[hi] = A[lo];
+    int left = lo, right = hi-1;
+    while(left < right){
+        while(left < right && A[right] >= pivot) right--;
+        while(left < right && A[left] <= pivot) left++;
+        if(left < right) swap(A[left], A[right]);
     }
-    A[lo] = pivot;
-    return lo;
+    swap(A[lo], A[left]);
+    return left;
 }
 
 // quick_sort:
